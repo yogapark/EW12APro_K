@@ -151,10 +151,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
-#if 1
 	if(isSwitchFirstMode())
-//	if(1)
 	{
 		if(old_ModeOfSwitch != 1)
 		{
@@ -165,21 +162,17 @@ int main(void)
 		if( is_IN_EN_ON() )
 //			if(isACC1on())
 		{
-				if (gCount_FullMode_setting_Time >= FULLMODE_ACTION_TEME)
-#if 1
+			if (gCount_FullMode_setting_Time >= FULLMODE_ACTION_TEME){
 				SC8915_FULL_mode();
-#else
-				SC8915_TEST_7A_mode();
-#endif
-			else
+			}
+			else{
 				SC8915_HALF_mode();
+			}
 			HAL_Delay(10);
 			SC8915_R_DATA(0x0D, &read_buff[0],10);
 			HAL_Delay(10);
-
 //			if(isSwitchFullMode())
-				gCount_SCREEN_IDLE_TIME = 0;
-
+			gCount_SCREEN_IDLE_TIME = 0;
 		}
 		else if(isBATon())
 		{
@@ -232,23 +225,7 @@ int main(void)
 				read_buff[i]=0;
 		}
 		Set_OUT_EN_ON();
-//		OLED_display_string(2, 54, "HALF");
-//		OLED_Screen_Clean(0, 54, 24);
 	}
-//	else
-//	{
-//		OLED_SCREEN_OFF();
-//		SC8915_PSTOP_Off();
-//		count_acc  = 0;
-//
-//		Set_OUT_EN_OFF();
-//		HAL_Delay(1000);
-//		continue;
-//	}
-//
-#endif
-
-
 
 //	SC8915_R_DATA(0x00, &read_buff[0],1);
 //	SC8915_R_DATA(0x0D, &read_buff[0],10);
@@ -311,30 +288,11 @@ int main(void)
 
 	// temperature
 
-#if 1
 	OLED_display_string(4, 0, "TEM");
 //	sprintf(currentline,"%03d",adcval[4]/10);
 	sprintf(currentline,"%+03d",/*-2 );*/mcuTemperature(adcval[6]));
 //	OLED_display_string_Tem(0,109,currentline);
 	OLED_display_string_Tem(4,20,currentline);
-#else
-
-	//	sprintf(currentline,"%03d",adcval[4]/10);
-		sprintf(currentline,"%+03d",/*-2 );*/mcuTemperature2(adcval[6]));
-	//	OLED_display_string_Tem(0,109,currentline);
-		OLED_display_string_Tem(3,50,currentline);
-
-//		sprintf(currentline,"%04d",adcval[6]);
-	//	sprintf(currentline,"%+03d",/*-2 );*/mcuTemperature(adcval[6]));
-//		OLED_display_string(7,50,currentline);
-	//	OLED_display_string_Tem(7,50,currentline);
-
-		sprintf(currentline,"%04d",*((uint16_t*) ((uint32_t)0x1FFFF7B8)));
-		OLED_display_string(5,50,currentline);
-
-#endif
-
-
 
 	OLED_display_Battery_Icon_wide(6,0,mV_VBAT);
 
